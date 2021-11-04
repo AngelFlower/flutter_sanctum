@@ -6,6 +6,7 @@ import 'dart:developer';
 import 'package:dio/dio.dart' as Dio;
 import 'package:flutter_sanctum/models/user.dart';
 import 'package:flutter_sanctum/utils/dio.dart';
+import 'package:platform_device_id/platform_device_id.dart';
 
 class Auth extends ChangeNotifier {
   bool _isAuth = false;
@@ -16,8 +17,10 @@ class Auth extends ChangeNotifier {
   User get user => _user;
 
   Future login({required Map credentials}) async {
-    Dio.Response response =
-        await dio().post('/auth/token', data: json.encode(credentials));
+    String deviceID = await getDeviceID();
+
+    Dio.Response response = await dio().post('/auth/token',
+        data: json.encode(credentials..addAll({'deviceID': deviceID})));
 
     String token = json.decode(response.toString())['token'];
 
@@ -42,6 +45,16 @@ class Auth extends ChangeNotifier {
     }
 
     notifyListeners();
+  }
+
+  Future getDeviceID() async {
+    String? deviceID;
+    try {
+      deviceID = await PlatformDeviceId.getDeviceId;
+      print('Device ID: $deviceID');
+    } catch (e) {}
+
+    return deviceID;
   }
 
   void logout() {
