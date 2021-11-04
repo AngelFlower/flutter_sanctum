@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:dio/dio.dart' as Dio;
 import 'package:flutter_sanctum/models/user.dart';
