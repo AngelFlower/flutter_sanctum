@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'dart:developer';
 
+import 'package:flutter_sanctum/providers/auth.dart';
+import 'package:provider/provider.dart';
+
 class LoginPage extends StatefulWidget {
   LoginPage({Key? key}) : super(key: key);
 
@@ -15,9 +18,11 @@ class _LoginPageState extends State<LoginPage> {
   String _email = '';
   String _password = '';
 
-  void submit() {
-    log(_email);
-    log(_password);
+  Future submit() async {
+    Provider.of<Auth>(context, listen: false)
+        .login(credentials: {'email': _email, 'password': _password});
+
+    Navigator.pop(context);
   }
 
   @override
@@ -34,6 +39,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                   children: [
                     TextFormField(
+                      initialValue: 'alex@codecourse.com',
                       decoration: InputDecoration(
                         labelText: 'Email',
                         hintText: 'you@somewhere.com',
@@ -43,6 +49,7 @@ class _LoginPageState extends State<LoginPage> {
                       },
                     ),
                     TextFormField(
+                      initialValue: 'password',
                       decoration: InputDecoration(
                         labelText: 'Password',
                         hintText: '********',

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sanctum/providers/auth.dart';
 
 import 'package:flutter_sanctum/widgets/nav_drawer.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
@@ -18,7 +20,14 @@ class _HomePageState extends State<HomePage> {
       ),
       drawer: NavDrawer(),
       body: Center(
-        child: Text('You are not logged in'),
+        child: Consumer<Auth>(
+          builder: (context, auth, child) {
+            if (auth.isAuth) {
+              return Text('Yo are logged in');
+            }
+            return Text('You are not logged in');
+          },
+        ),
       ),
     );
   }
