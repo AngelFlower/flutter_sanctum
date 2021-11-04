@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sanctum/providers/auth.dart';
 
 import 'package:flutter_sanctum/widgets/nav_drawer.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -12,6 +13,19 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final storage = FlutterSecureStorage();
+
+  void _attemptAuthentication() async {
+    final key = await storage.read(key: 'auth');
+    Provider.of<Auth>(context, listen: false).attempt(key!);
+  }
+
+  @override
+  void initState() {
+    _attemptAuthentication();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
