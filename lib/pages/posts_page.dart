@@ -16,9 +16,9 @@ class PostsPage extends StatefulWidget {
 
 class _PostsPageState extends State<PostsPage> {
   Future<List<Post>> getPosts() async {
-    Dio.Response response = await dio().get('user/posts');
+    Dio.Response response = await dio()
+        .get('user/posts', options: Dio.Options(headers: {'auth': true}));
     List posts = json.decode(response.toString());
-
     return posts.map((post) => Post.fromJson(post)).toList();
   }
 
@@ -44,11 +44,11 @@ class _PostsPageState extends State<PostsPage> {
               },
             );
           } else if (snapshot.hasError) {
-            return Text("${snapshot.error}");
-          } else if (snapshot.hasError) {
+            log('error');
             log(snapshot.error.toString());
             return Text('Failed to load posts');
           }
+          //log(snapshot.data.toString());
 
           return CircularProgressIndicator();
         },
