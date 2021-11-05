@@ -3,7 +3,7 @@
 A Flutter project with auth.
 # flutter_sanctum_api
 
-- https://github.com/AngelFlower/flutter_sanctum_api
+- [Api: Go to laravel sanctum api](https://github.com/AngelFlower/flutter_sanctum_api)
 ## Getting Started
 
 This project is a starting point for a Flutter application.
